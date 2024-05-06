@@ -307,7 +307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody2D: {fileID: 104220709}
-  _test: {x: 0, y: 0.1}
+  _test: {x: 0, y: 0.2}
   ForceJumpUp:
     value: 10
   ForceJumpLeft:

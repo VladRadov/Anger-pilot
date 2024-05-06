@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Anger pilot/Scenes/Menu.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Anger pilot/Scenes/Game.unity
+    guid: 5e5be187f3f237c408808fa40fa8d8c9
   m_configObjects: {}
