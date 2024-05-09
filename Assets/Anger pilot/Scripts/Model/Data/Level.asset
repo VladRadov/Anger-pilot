@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e10a9c29fc3abef4286929e20bebab63, type: 3}
+  m_Name: Level
+  m_EditorClassIdentifier: 
+  _countFrame: 5
+  _prefabFrameMapView: {fileID: 6335086909109457768, guid: 7ae54c0424ed011469f5c5201d3062d2, type: 3}
+  _prefabBat: {fileID: 5058531685025049340, guid: 2add88557dcb5e648910b089deaf6f26, type: 3}
+  _prefabWolf: {fileID: 0}
