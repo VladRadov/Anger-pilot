@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e10a9c29fc3abef4286929e20bebab63, type: 3}
   m_Name: Level
   m_EditorClassIdentifier: 
-  _countFrame: 5
-  _prefabFrameMapView: {fileID: 6335086909109457768, guid: 7ae54c0424ed011469f5c5201d3062d2, type: 3}
+  _prefabsFrameMapView:
+  - {fileID: 6335086909109457768, guid: 7ae54c0424ed011469f5c5201d3062d2, type: 3}
+  - {fileID: 6335086909109457768, guid: 28952e1a931d6804d945db94e463f53f, type: 3}
+  - {fileID: 6335086909109457768, guid: b0f13a154a4c533498a2e1c5a0ae90f1, type: 3}
   _prefabBat: {fileID: 5058531685025049340, guid: 2add88557dcb5e648910b089deaf6f26, type: 3}
   _prefabWolf: {fileID: 0}
+  _prefabBullet: {fileID: 6070233251592762949, guid: 96a4ac2fe5e292a4681487e1c0bfdc1f, type: 3}
+  _prefabCrystal: {fileID: 285880057009304599, guid: 6722fb28430b1c94393c022b500ba24e, type: 3}
+  _prefabSun: {fileID: -4904803030562726753, guid: e74c1b7299a0e1a4592454bea64581b8, type: 3}

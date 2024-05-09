@@ -327,7 +327,7 @@ GameObject:
   - component: {fileID: 5623422457494559849}
   - component: {fileID: 2138289345074284814}
   - component: {fileID: 1582889907850318527}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: DeadlyPlace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -406,3 +406,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c8ff74ac58fadf439e4f6de18777f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemyView: {fileID: 5058531685025049340}

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UniRx;
 using UnityEngine.EventSystems;
 
-public class SystemInput : MonoBehaviour, IPointerClickHandler
+public class SystemInput : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 {
     private bool _isPauseGame;
 
@@ -19,9 +19,16 @@ public class SystemInput : MonoBehaviour, IPointerClickHandler
     {
         _isPauseGame = false;
     }
-    public void OnPointerClick(PointerEventData eventData)
+
+    public void OnPointerUp(PointerEventData eventData)
     {
-        if(eventData.pointerId == 0)
+        if (eventData.pointerId == 0)
+            OnMouseUpCommand.Execute();
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (eventData.pointerId == 0)
             OnMouseDownCommand.Execute();
     }
 

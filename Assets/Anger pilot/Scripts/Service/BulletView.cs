@@ -4,6 +4,8 @@ using UniRx;
 
 public class BulletView : MonoBehaviour
 {
+    private bool _isMove;
+
     [SerializeField] private float _speedMove;
     [SerializeField] protected Sprite _iconActive;
     [SerializeField] protected Sprite _iconNoActive;
@@ -11,8 +13,13 @@ public class BulletView : MonoBehaviour
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private Rigidbody2D _rigidbody;
 
-    public virtual void SetActive(bool value)
+    public bool InMove => _isMove;
+
+    public virtual void SetActiveIcon(bool value)
         => _spriteRenderer.sprite = value ? _iconActive : _iconNoActive;
+
+    public void SetActive(bool value)
+        => transform.gameObject.SetActive(value);
 
     public void SetLocalPosition(Vector3 position)
         => transform.localPosition = position;
@@ -20,16 +27,19 @@ public class BulletView : MonoBehaviour
     public void StartMoveBullet()
         => _rigidbody.velocity = Vector2.right * _speedMove;
 
+    public void SetMove(bool value)
+        => _isMove = value;
+
     public IEnumerator Lifetime()
     {
         yield return new WaitForSeconds(6);
         gameObject.SetActive(false);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        var enemyView = collision.collider.GetComponent<EnemyView>();
-        if (enemyView != null)
+        var enemyView = collision.gameObject.GetComponent<EnemyView>();
+        if (_isMove && enemyView != null)
         {
             enemyView.SetActive(false);
             gameObject.SetActive(false);

@@ -5,6 +5,8 @@ using UniRx;
 
 public class PlayerView : MonoBehaviour
 {
+    private int _maskRunning;
+
     [Header("Components")]
     [SerializeField] private Rigidbody2D _rigidbody2D;
     [SerializeField] private HealthPlayerView _healthPlayerView;
@@ -14,15 +16,37 @@ public class PlayerView : MonoBehaviour
     public FloatReactiveProperty ForceJumpLeft = new();
     public ReactiveCommand OnCollisionGroundCommand = new();
     public ReactiveCommand OnGetDamageCommand = new();
+    public ReactiveCommand OnGetBulletCommand = new();
+    public ReactiveCommand OnGetCrystalCommand = new();
+    public ReactiveCommand OnGameOverCommand = new();
+    public ReactiveCommand OnGetSunCommand = new();
     public HealthPlayerView HealthPlayerView => _healthPlayerView;
     public WeaponView WeaponView => _weaponView;
+    public Vector3 Speed { get; set; }
 
     public void UpdateSpeed(Vector2 speed)
         => _rigidbody2D.velocity = speed;
 
+    public void OnGetSun()
+        => _rigidbody2D.excludeLayers = _maskRunning;
+
+    public void OnEndTimerRunnning()
+        => _rigidbody2D.excludeLayers = 0;
+
+    private void Start()
+    {
+        _maskRunning = LayerMask.GetMask("Jump", "Tree");
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (_rigidbody2D.excludeLayers == 0 && collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            OnGameOverCommand.Execute();
+            return;
+        }
+
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Jump"))
             OnCollisionGroundCommand.Execute();
 
         var deadlyPlaceEnemyView = collision.collider.GetComponent<DeadlyPlaceEnemyView>();
@@ -34,6 +58,30 @@ public class PlayerView : MonoBehaviour
         {
             enemy.SetActive(false);
             OnGetDamageCommand.Execute();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        var sun = collision.gameObject.GetComponent<SunView>();
+        if (sun != null)
+        {
+            sun.SetActive(false);
+            OnGetSunCommand.Execute();
+        }
+
+        var bullet = collision.gameObject.GetComponent<BulletView>();
+        if (bullet != null && bullet.InMove == false)
+        {
+            bullet.SetActive(false);
+            OnGetBulletCommand.Execute();
+        }
+
+        var crystal = collision.gameObject.GetComponent<CrystalView>();
+        if (crystal != null)
+        {
+            crystal.SetActive(false);
+            OnGetCrystalCommand.Execute();
         }
     }
 
@@ -55,5 +103,9 @@ public class PlayerView : MonoBehaviour
         ManagerUniRx.Dispose(ForceJumpLeft);
         ManagerUniRx.Dispose(OnCollisionGroundCommand);
         ManagerUniRx.Dispose(OnGetDamageCommand);
+        ManagerUniRx.Dispose(OnGetBulletCommand);
+        ManagerUniRx.Dispose(OnGetCrystalCommand);
+        ManagerUniRx.Dispose(OnGameOverCommand);
+        ManagerUniRx.Dispose(OnGetSunCommand);
     }
 }

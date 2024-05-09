@@ -6,6 +6,8 @@ using UnityEngine;
 public class SaveerDataInPlayerPrefs : SaveerData
 {
     private readonly string KEY_COUNT_COIN = "Coins";
+    private readonly string KEY_COUNT_ALL_CRYSTAL = "AllCrystal";
+    private readonly string KEY_COUNT_GAME_CRYSTAL = "GameCrystal";
     private readonly string KEY_IS_MUSIC_ON = "IsMusicOn";
     private readonly string KEY_IS_SOUND_ON = "IsSoundOn";
     private readonly string KEY_IS_VIBRATION_ON = "IsVibrationOn";
@@ -15,6 +17,8 @@ public class SaveerDataInPlayerPrefs : SaveerData
     private readonly string KEY_OPEN_GROUNDS = "OpenGrounds";
 
     public int Coins { get { return Load<int>(KEY_COUNT_COIN, 0); } set { Save<int>(KEY_COUNT_COIN, value); } }
+    public int AllCrystal { get { return Load<int>(KEY_COUNT_ALL_CRYSTAL, 0); } set { Save<int>(KEY_COUNT_ALL_CRYSTAL, value); } }
+    public int GameCrystal { get { return Load<int>(KEY_COUNT_GAME_CRYSTAL, 0); } set { Save<int>(KEY_COUNT_GAME_CRYSTAL, value); } }
     public int IsMusicOn { get { return Load<int>(KEY_IS_MUSIC_ON, 1); } set { Save<int>(KEY_IS_MUSIC_ON, value); } }
     public int IsSoundOn { get { return Load<int>(KEY_IS_SOUND_ON, 1); } set { Save<int>(KEY_IS_SOUND_ON, value); } }
     public int IsVibrationOn { get { return Load<int>(KEY_IS_VIBRATION_ON, 1); } set { Save<int>(KEY_IS_VIBRATION_ON, value); } }

@@ -6,13 +6,16 @@ using UniRx;
 public class Player
 {
     private bool _isStandGround;
+    private bool _isRunning;
 
     public Player()
     {
         _isStandGround = false;
+        _isRunning = false;
     }
 
     public ReactiveProperty<Vector2> Speed = new();
+    public bool IsRunning => _isRunning;
 
     public void Jump(Vector2 speed)
     {
@@ -22,6 +25,12 @@ public class Player
             _isStandGround = false;
         }
     }
+
+    public void SetRunningState(bool value)
+        => _isRunning = value;
+
+    public void Running(Vector2 speed)
+        => Speed.Value = speed;
 
     public void OnCollisionGround()
     {

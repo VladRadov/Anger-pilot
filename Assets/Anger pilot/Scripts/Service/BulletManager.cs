@@ -28,7 +28,7 @@ public class BulletManager : MonoBehaviour
         if (_currentCountBullet != 0)
         {
             _currentCountBullet -= 1;
-            _bullets[_currentCountBullet].SetActive(false);
+            _bullets[_currentCountBullet].SetActiveIcon(false);
 
             return true;
         }
@@ -40,7 +40,7 @@ public class BulletManager : MonoBehaviour
     {
         if (_currentCountBullet != _countBullet)
         {
-            _bullets[_currentCountBullet].SetActive(true);
+            _bullets[_currentCountBullet].SetActiveIcon(true);
             _currentCountBullet += 1;
         }
     }

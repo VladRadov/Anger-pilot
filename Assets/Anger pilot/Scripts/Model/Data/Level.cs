@@ -5,13 +5,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Level", menuName = "ScriptableObject/Level")]
 public class Level : ScriptableObject
 {
-    [SerializeField] private int _countFrame;
-    [SerializeField] private FrameMapView _prefabFrameMapView;
+    [SerializeField] private List<FrameMapView> _prefabsFrameMapView;
     [SerializeField] private EnemyView _prefabBat;
     [SerializeField] private EnemyView _prefabWolf;
+    [SerializeField] private BulletView _prefabBullet;
+    [SerializeField] private CrystalView _prefabCrystal;
+    [SerializeField] private SunView _prefabSun;
 
-    public int CountFrame => _countFrame;
-    public FrameMapView PrefabFrameMapView => _prefabFrameMapView;
+    public List<FrameMapView> PrefabsFrameMapView => _prefabsFrameMapView;
     public EnemyView PrefabBat => _prefabBat;
     public EnemyView PrefabWolf => _prefabWolf;
+    public BulletView PrefabBullet => _prefabBullet;
+    public CrystalView PrefabCrystal => _prefabCrystal;
+    public SunView PrefabSun => _prefabSun;
 }

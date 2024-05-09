@@ -27,7 +27,7 @@ public class FrameMapController : MonoBehaviour
         var indexRange = Random.Range(0, 4);
         if (indexRange == 2)
         {
-            var health = PoolObjects<HealthView>.GetObject(frameMapView.PrefabHealth, frameMapView.transform);
+            var health = PoolObjects<HealthView>.GetObject(frameMapView.PrefabHealth);
             var positionX = Random.Range(-_widthFrame, _widthFrame);
             health.SetLocalPosition(new Vector3(positionX, 0, 0));
             health.SetSkin(_currentSkin.Icon);
@@ -39,10 +39,43 @@ public class FrameMapController : MonoBehaviour
         var indexRange = Random.Range(0, 3);
         if (indexRange == 2)
         {
-            var bat = PoolObjects<EnemyView>.GetObject(_level.PrefabBat, frameMapView.transform);
+            var bat = PoolObjects<EnemyView>.GetObject(_level.PrefabBat);
             var positionX = Random.Range(-_widthFrame, _widthFrame);
-            var positionY = Random.Range(-10, 17);
-            bat.SetLocalPosition(new Vector3(positionX, positionY, 0));
+            bat.SetLocalPosition(new Vector3(frameMapView.transform.position.x + positionX, 0, 0));
+        }
+    }
+
+    private void CreateBullet(FrameMapView frameMapView)
+    {
+        var indexRange = Random.Range(0, 3);
+        if (indexRange == 2)
+        {
+            var bullet = PoolObjects<BulletView>.GetObject(_level.PrefabBullet);
+            var positionX = Random.Range(-_widthFrame, _widthFrame);
+            bullet.SetLocalPosition(new Vector3(frameMapView.transform.position.x + positionX, 0, 0));
+            bullet.SetMove(false);
+        }
+    }
+
+    private void CreateCrystal(FrameMapView frameMapView)
+    {
+        var indexRange = Random.Range(0, 3);
+        if (indexRange == 2)
+        {
+            var bullet = PoolObjects<CrystalView>.GetObject(_level.PrefabCrystal);
+            var positionX = Random.Range(-_widthFrame, _widthFrame);
+            bullet.SetLocalPosition(new Vector3(frameMapView.transform.position.x + positionX, 0, 0));
+        }
+    }
+
+    private void CreateSun(FrameMapView frameMapView)
+    {
+        var indexRange = Random.Range(0, 3);
+        if (indexRange == 2)
+        {
+            var bullet = PoolObjects<SunView>.GetObject(_level.PrefabSun);
+            var positionX = Random.Range(-_widthFrame, _widthFrame);
+            bullet.SetLocalPosition(new Vector3(frameMapView.transform.position.x + positionX, 0, 0));
         }
     }
 
@@ -51,9 +84,9 @@ public class FrameMapController : MonoBehaviour
 
     public void Initialize()
     {
-        for(int i = 0; i < _level.CountFrame; i++)
+        for(int i = 0; i < _level.PrefabsFrameMapView.Count; i++)
         {
-            var frameMap = Instantiate(_level.PrefabFrameMapView);
+            var frameMap = Instantiate(_level.PrefabsFrameMapView[i]);
 
             if (_frameMapViews.Count != 0)
                 frameMap.SetLocalPosition(NextPositionFrameMap);
@@ -77,6 +110,9 @@ public class FrameMapController : MonoBehaviour
         frameMapView.SetLocalPosition(NextPositionFrameMap);
         CreateHealth(frameMapView);
         CreateEnemy(frameMapView);
+        CreateBullet(frameMapView);
+        CreateCrystal(frameMapView);
+        CreateSun(frameMapView);
         _lastFrameMap = frameMapView;
     }
 }
