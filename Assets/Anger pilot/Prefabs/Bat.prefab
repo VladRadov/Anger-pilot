@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 598575206118606847}
   - component: {fileID: 3138561463017213753}
   - component: {fileID: 7523988958790616917}
-  - component: {fileID: 5058531685025049340}
   - component: {fileID: 5278548137279298561}
+  - component: {fileID: 4163695286242251715}
   m_Layer: 0
   m_Name: Bat
   m_TagString: Untagged
@@ -291,19 +291,6 @@ CompositeCollider2D:
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
   m_CompositeGameObject: {fileID: 4380615907981412161}
---- !u!114 &5058531685025049340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4380615907981412161}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58ea0ef64d897a049b0fa99756ef47b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _damage: 0
 --- !u!210 &5278548137279298561
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -316,6 +303,19 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_SortAtRoot: 0
+--- !u!114 &4163695286242251715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4380615907981412161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6052f7509e5b4c84aba89b0785117559, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 1
 --- !u!1 &4859910970122335889
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,4 +406,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c8ff74ac58fadf439e4f6de18777f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyView: {fileID: 5058531685025049340}
+  _enemyView: {fileID: 0}

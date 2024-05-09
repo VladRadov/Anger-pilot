@@ -10,6 +10,7 @@ public class PlayGameView : MonoBehaviour
     private void Start()
     {
         _startGame.onClick.AddListener(() => { ManagerScenes.Instance.LoadAsyncFromCoroutine("Game"); });
+        _startGame.onClick.AddListener(() => { AudioManager.Instance.PlayClickButton(); });
     }
 
     private void OnValidate()

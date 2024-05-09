@@ -24,5 +24,8 @@ public class MusicItemSettingView : ItemSettingView
             ContainerSaveerPlayerPrefs.Instance.SaveerData.IsMusicOn = 1;
             SettingOn();
         }
+
+        AudioManager.Instance.ChangeStateMusic();
+        AudioManager.Instance.PlayClickButton();
     }
 }

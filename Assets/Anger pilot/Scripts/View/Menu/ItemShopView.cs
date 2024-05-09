@@ -22,7 +22,10 @@ public class ItemShopView : MonoBehaviour
         {
             Purchase();
             SetPurchasedState();
+            AudioManager.Instance.PlayClickButton();
         }
+        else
+            AudioManager.Instance.PlayErrorEntry();
     }
 
     protected void SetPurchaseState()
@@ -35,7 +38,10 @@ public class ItemShopView : MonoBehaviour
         => SetStatePurchase(true, false, false);
 
     protected virtual void OnSelectedItem()
-        => OnSelectedItemEventHander?.Invoke();
+    {
+        AudioManager.Instance.PlayClickButton();
+        OnSelectedItemEventHander?.Invoke();
+    }
 
     protected virtual void Purchase() { }
 

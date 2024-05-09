@@ -7,6 +7,8 @@ public class WeaponView : MonoBehaviour
 {
     [SerializeField] private BulletView _prefabBullet;
 
+    public ReactiveCommand OnFireCommand = new();
+
     public void Fire()
     {
         var bullet = PoolObjects<BulletView>.GetObject(_prefabBullet);
@@ -14,5 +16,12 @@ public class WeaponView : MonoBehaviour
         bullet.StartMoveBullet();
         bullet.SetMove(true);
         StartCoroutine(bullet.Lifetime());
+
+        OnFireCommand.Execute();
+    }
+
+    private void OnDestroy()
+    {
+        ManagerUniRx.Dispose(OnFireCommand);
     }
 }

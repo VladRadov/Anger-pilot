@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        AudioManager.Instance.PlayMusicGame();
         _levelManager.Initialize();
         _healthManager.Initialize();
         _bulletManager.Initialize();
@@ -35,20 +36,30 @@ public class GameManager : MonoBehaviour
 
         _fire.onClick.AddListener(() => { if (_bulletManager.TryFire()) _playerView.WeaponView.Fire(); });
 
-        _levelManager.SubscribeOnMouseDown(_ => { _playerController.SetMouseHolding(true); });
+        _levelManager.SubscribeOnMouseDown(_ => {if(_player.IsStandGround) _playerController.SetMouseHolding(true); });
         _levelManager.SubscribeOnMouseUp(_ => { _playerController.SetMouseHolding(false); });
 
         _playerView.OnGetCrystalCommand.Subscribe(_ => { _scoreManager.AddCrystal(); _scoreManager.UpdateScrystal(); });
+        _playerView.OnGetCrystalCommand.Subscribe(_ => { AudioManager.Instance.PlayGetCrystal(); });
         _playerView.OnGetBulletCommand.Subscribe(_ => { _bulletManager.AddBullet(); });
         _playerView.OnCollisionGroundCommand.Subscribe(_ => { _player.OnCollisionGround(); });
         _playerView.OnCollisionGroundCommand.Subscribe(_ => { _scoreManager.AddScore(); _scoreManager.UpdateScore(); });
         _playerView.HealthPlayerView.OnGetHelthCommand.Subscribe(_ => { _healthManager.AddHealth(); });
+        _playerView.HealthPlayerView.OnGetHelthCommand.Subscribe(_ => { AudioManager.Instance.PlayGetHealth(); });
         _playerView.OnGetDamageCommand.Subscribe(_ => { _healthManager.Damage(); });
+        _playerView.OnGetDamageCommand.Subscribe(_ => { AudioManager.Instance.PlayGrunt(); });
         _playerView.OnGameOverCommand.Subscribe(_ => { _gameOverView.SetActive(true); });
         _playerView.OnGameOverCommand.Subscribe(_ => { _scoreManager.OnGameOver(); });
+        _playerView.OnGameOverCommand.Subscribe(_ => { AudioManager.Instance.PlayGameOver(); });
         _playerView.OnGetSunCommand.Subscribe(_ => { _levelManager.TimerRunningView.StarTimer(); });
         _playerView.OnGetSunCommand.Subscribe(_ => { _playerView.OnGetSun(); });
         _playerView.OnGetSunCommand.Subscribe(_ => { _player.SetRunningState(true); });
+        _playerView.OnGetSunCommand.Subscribe(_ => { AudioManager.Instance.PlayGetSun(); });
+        _playerView.WeaponView.OnFireCommand.Subscribe(_ => { AudioManager.Instance.PlayFire(); });
+
+        _healthManager.GameOverCommand.Subscribe(_ => { _gameOverView.SetActive(true); });
+        _healthManager.GameOverCommand.Subscribe(_ => { _scoreManager.OnGameOver(); });
+        _healthManager.GameOverCommand.Subscribe(_ => { AudioManager.Instance.PlayGameOver(); });
 
         _levelManager.TimerRunningView.OnEndTimerCommand.Subscribe(_ => { _playerController.OnEndTimerRunning(); });
 
@@ -72,6 +83,7 @@ public class GameManager : MonoBehaviour
         ManagerUniRx.AddObjectDisposable(_playerView.OnGameOverCommand);
         ManagerUniRx.AddObjectDisposable(_playerView.OnGetSunCommand);
         ManagerUniRx.AddObjectDisposable(_levelManager.TimerRunningView.OnEndTimerCommand);
+        ManagerUniRx.AddObjectDisposable(_playerView.WeaponView.OnFireCommand);
         _levelManager.AddObjectsDisposable();
     }
 }

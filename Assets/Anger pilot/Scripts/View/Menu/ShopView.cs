@@ -15,6 +15,7 @@ public class ShopView : MonoBehaviour
     private void Start()
     {
         _close.onClick.AddListener(() => { SetActive(false); });
+        _close.onClick.AddListener(() => { AudioManager.Instance.PlayClickButton(); });
 
         foreach (var skin in _skins)
         {

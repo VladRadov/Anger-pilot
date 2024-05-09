@@ -16,6 +16,7 @@ public class Player
 
     public ReactiveProperty<Vector2> Speed = new();
     public bool IsRunning => _isRunning;
+    public bool IsStandGround => _isStandGround;
 
     public void Jump(Vector2 speed)
     {

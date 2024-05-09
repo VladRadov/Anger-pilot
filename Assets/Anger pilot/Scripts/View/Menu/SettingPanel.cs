@@ -13,5 +13,6 @@ public class SettingPanel : MonoBehaviour
     private void Start()
     {
         _close.onClick.AddListener(() => { SetActive(false); });
+        _close.onClick.AddListener(() => { AudioManager.Instance.PlayClickButton(); });
     }
 }

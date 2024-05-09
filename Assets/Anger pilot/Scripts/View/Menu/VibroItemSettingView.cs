@@ -24,5 +24,7 @@ public class VibroItemSettingView : ItemSettingView
             ContainerSaveerPlayerPrefs.Instance.SaveerData.IsVibrationOn = 1;
             SettingOn();
         }
+
+        AudioManager.Instance.PlayClickButton();
     }
 }

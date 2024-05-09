@@ -21,11 +21,13 @@ public class GameOverView : MonoBehaviour
 
     private void OnRestart()
     {
+        AudioManager.Instance.PlayClickButton();
         ManagerScenes.Instance.LoadAsyncFromCoroutine("Game");
     }
 
     private void OnMenu()
     {
+        AudioManager.Instance.PlayClickButton();
         ManagerScenes.Instance.LoadAsyncFromCoroutine("Menu");
     }
 }

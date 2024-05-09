@@ -24,5 +24,8 @@ public class SoundItemSettingView : ItemSettingView
             ContainerSaveerPlayerPrefs.Instance.SaveerData.IsSoundOn = 1;
             SettingOn();
         }
+
+        AudioManager.Instance.ChangeStateSound();
+        AudioManager.Instance.PlayClickButton();
     }
 }

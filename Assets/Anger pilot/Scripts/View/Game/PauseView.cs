@@ -10,7 +10,12 @@ public class PauseView : MonoBehaviour
     [SerializeField] private Button _menu;
 
     public void SetActive(bool value)
-        => gameObject.SetActive(value);
+    {
+        if(value)
+            AudioManager.Instance.PlayClickButton();
+
+        gameObject.SetActive(value);
+    }
 
     private void Start()
     {
@@ -21,16 +26,19 @@ public class PauseView : MonoBehaviour
 
     private void OnContinue()
     {
+        AudioManager.Instance.PlayClickButton();
         SetActive(false);
     }
 
     private void OnRestart()
     {
+        AudioManager.Instance.PlayClickButton();
         ManagerScenes.Instance.LoadAsyncFromCoroutine("Game");
     }
 
     private void OnMenu()
     {
+        AudioManager.Instance.PlayClickButton();
         ManagerScenes.Instance.LoadAsyncFromCoroutine("Menu");
     }
 }
