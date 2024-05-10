@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class GroundItemShopView : ItemShopView
 {
-    [SerializeField] private string _nameGround;
+    [SerializeField] private ItemShop _ground;
 
     public override void InitializeStateItem()
     {
-        var isCurrentGround = ContainerSaveerPlayerPrefs.Instance.SaveerData.CurrentGround == _nameGround;
-        var isPurchased = ContainerSaveerPlayerPrefs.Instance.SaveerData.OpenGrounds.Contains(_nameGround);
+        var isCurrentGround = ContainerSaveerPlayerPrefs.Instance.SaveerData.CurrentGround == _ground.Name;
+        var isPurchased = ContainerSaveerPlayerPrefs.Instance.SaveerData.OpenGrounds.Contains(_ground.Name);
 
         if (isCurrentGround)
             SetSelectedState();
@@ -21,12 +21,12 @@ public class GroundItemShopView : ItemShopView
 
     protected override void Purchase()
     {
-        ContainerSaveerPlayerPrefs.Instance.SaveerData.OpenGrounds += _nameGround + ";";
+        ContainerSaveerPlayerPrefs.Instance.SaveerData.OpenGrounds += _ground.Name + ";";
     }
 
     protected override void OnSelectedItem()
     {
-        ContainerSaveerPlayerPrefs.Instance.SaveerData.CurrentGround = _nameGround;
+        ContainerSaveerPlayerPrefs.Instance.SaveerData.CurrentGround = _ground.Name;
         base.OnSelectedItem();
     }
 }

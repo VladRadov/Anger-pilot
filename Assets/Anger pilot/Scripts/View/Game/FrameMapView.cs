@@ -9,12 +9,16 @@ public class FrameMapView : MonoBehaviour
     [SerializeField] private SystemInput _systemInput;
     [SerializeField] private BGView _bGView;
     [SerializeField] private HealthView _prefabHealth;
+    [SerializeField] private SpriteRenderer _ground;
 
     public SystemInput SystemInput =>  _systemInput;
     public Vector3 LocalPosition => transform.localPosition;
     public BGView BGView => _bGView;
     public HealthView PrefabHealth => _prefabHealth;
     public float PositionXEnd => transform.position.x + _widthFrame;
+
+    public void SetSpriteGround(Sprite sprite)
+        => _ground.sprite = sprite;
 
     public void SetWidthFrame(int widthFrame)
         => _widthFrame = widthFrame;

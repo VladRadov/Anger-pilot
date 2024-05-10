@@ -6,10 +6,10 @@ public static class WalletManager
 {
     public static bool TryPurchase(int price)
     {
-        var isMach = ContainerSaveerPlayerPrefs.Instance.SaveerData.Coins >= price;
+        var isMach = ContainerSaveerPlayerPrefs.Instance.SaveerData.AllCrystal >= price;
 
         if (isMach)
-            ContainerSaveerPlayerPrefs.Instance.SaveerData.Coins -= price;
+            ContainerSaveerPlayerPrefs.Instance.SaveerData.AllCrystal -= price;
 
         return isMach;
     }

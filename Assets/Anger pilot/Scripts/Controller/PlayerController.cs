@@ -41,8 +41,8 @@ public class PlayerController
     {
         _player.SetRunningState(false);
         _player.OnCollisionGround();
-        _player.Jump(Vector2.up * _view.ForceJumpUp.Value + Vector2.right * _view.ForceJumpLeft.Value);
-        await Task.Delay(50);
+        _player.Jump(Vector2.up * _view.ForceJumpUp.Value * 3.5f + Vector2.right * _view.ForceJumpLeft.Value);
+        await Task.Delay(500);
         _view.OnEndTimerRunnning();
         _player.OnCollisionGround();
     }

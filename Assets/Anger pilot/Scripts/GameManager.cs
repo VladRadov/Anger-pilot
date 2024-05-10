@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviour
         _playerController = new PlayerController(_playerView, _player);
         _playerController.Initialize();
         _playerView.Speed = Vector2.up * _playerView.ForceJumpUp.Value + Vector2.right * _playerView.ForceJumpLeft.Value;
+        _playerView.SetSpriteHead(_healthManager.CurrentSkin.Icon);
 
         _fire.onClick.AddListener(() => { if (_bulletManager.TryFire()) _playerView.WeaponView.Fire(); });
 
@@ -40,31 +42,48 @@ public class GameManager : MonoBehaviour
         _levelManager.SubscribeOnMouseUp(_ => { _playerController.SetMouseHolding(false); });
 
         _playerView.OnGetCrystalCommand.Subscribe(_ => { _scoreManager.AddCrystal(); _scoreManager.UpdateScrystal(); });
+        _playerView.OnGetCrystalCommand.Subscribe(_ => { _levelManager.VibrationIphone(); });
         _playerView.OnGetCrystalCommand.Subscribe(_ => { AudioManager.Instance.PlayGetCrystal(); });
         _playerView.OnGetBulletCommand.Subscribe(_ => { _bulletManager.AddBullet(); });
         _playerView.OnCollisionGroundCommand.Subscribe(_ => { _player.OnCollisionGround(); });
         _playerView.OnCollisionGroundCommand.Subscribe(_ => { _scoreManager.AddScore(); _scoreManager.UpdateScore(); });
+        _playerView.OnCollisionGroundCommand.Subscribe(_ => { _levelManager.VibrationIphone(); });
         _playerView.HealthPlayerView.OnGetHelthCommand.Subscribe(_ => { _healthManager.AddHealth(); });
         _playerView.HealthPlayerView.OnGetHelthCommand.Subscribe(_ => { AudioManager.Instance.PlayGetHealth(); });
+        _playerView.HealthPlayerView.OnGetHelthCommand.Subscribe(_ => { _levelManager.VibrationIphone(); });
+        _playerView.OnGetDamageCommand.Subscribe(_ => { _levelManager.VibrationIphone(); });
         _playerView.OnGetDamageCommand.Subscribe(_ => { _healthManager.Damage(); });
         _playerView.OnGetDamageCommand.Subscribe(_ => { AudioManager.Instance.PlayGrunt(); });
         _playerView.OnGameOverCommand.Subscribe(_ => { _gameOverView.SetActive(true); });
         _playerView.OnGameOverCommand.Subscribe(_ => { _scoreManager.OnGameOver(); });
         _playerView.OnGameOverCommand.Subscribe(_ => { AudioManager.Instance.PlayGameOver(); });
-        _playerView.OnGetSunCommand.Subscribe(_ => { _levelManager.TimerRunningView.StarTimer(); });
-        _playerView.OnGetSunCommand.Subscribe(_ => { _playerView.OnGetSun(); });
-        _playerView.OnGetSunCommand.Subscribe(_ => { _player.SetRunningState(true); });
-        _playerView.OnGetSunCommand.Subscribe(_ => { AudioManager.Instance.PlayGetSun(); });
+        _playerView.OnGameOverCommand.Subscribe(_ => { _levelManager.VibrationIphone(); });
+
+        _playerView.OnGetSunCommand.Subscribe(_ => { OnGetSun(); });
+
         _playerView.WeaponView.OnFireCommand.Subscribe(_ => { AudioManager.Instance.PlayFire(); });
 
         _healthManager.GameOverCommand.Subscribe(_ => { _gameOverView.SetActive(true); });
         _healthManager.GameOverCommand.Subscribe(_ => { _scoreManager.OnGameOver(); });
         _healthManager.GameOverCommand.Subscribe(_ => { AudioManager.Instance.PlayGameOver(); });
+        _healthManager.GameOverCommand.Subscribe(_ => { _levelManager.VibrationIphone(); });
 
         _levelManager.TimerRunningView.OnEndTimerCommand.Subscribe(_ => { _playerController.OnEndTimerRunning(); });
+        _levelManager.TimerRunningView.OnEndTimerCommand.Subscribe(_ => { _levelManager.SetBGFrameMaps(); });
 
         _player.Speed.Subscribe(_ => { _levelManager.CheckingInvisibleFrameMaps(_playerView.transform.position); });
         AddObjectsDisposable();
+    }
+
+    private async void OnGetSun()
+    {
+        AudioManager.Instance.PlayGetSun();
+        _levelManager.VibrationIphone();
+        _levelManager.SetBGFramMapsDay();
+        _playerView.OnGetSun();
+        await Task.Delay(500);
+        _levelManager.TimerRunningView.StarTimer();
+        _player.SetRunningState(true);
     }
 
     private void FixedUpdate()

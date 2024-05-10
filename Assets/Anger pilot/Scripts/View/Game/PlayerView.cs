@@ -11,6 +11,7 @@ public class PlayerView : MonoBehaviour
     [SerializeField] private Rigidbody2D _rigidbody2D;
     [SerializeField] private HealthPlayerView _healthPlayerView;
     [SerializeField] private WeaponView _weaponView;
+    [SerializeField] private SpriteRenderer _head;
 
     public FloatReactiveProperty ForceJumpUp = new();
     public FloatReactiveProperty ForceJumpLeft = new();
@@ -32,6 +33,9 @@ public class PlayerView : MonoBehaviour
 
     public void OnEndTimerRunnning()
         => _rigidbody2D.excludeLayers = 0;
+
+    public void SetSpriteHead(Sprite spriteHead)
+        => _head.sprite = spriteHead;
 
     private void Start()
     {
@@ -83,6 +87,11 @@ public class PlayerView : MonoBehaviour
             crystal.SetActive(false);
             OnGetCrystalCommand.Execute();
         }
+    }
+
+    private void OnBecameInvisible()
+    {
+        OnGameOverCommand.Execute();
     }
 
     private void OnValidate()

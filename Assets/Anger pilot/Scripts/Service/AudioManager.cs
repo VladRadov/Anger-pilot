@@ -7,6 +7,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource _audioSourceMusic;
     [SerializeField] private AudioSource _audioSourceSound;
     [SerializeField] private AudioSource _audioSourceSound2;
+    [SerializeField] private AudioSource _audioSourceSound3;
     [SerializeField] private List<Sound> _audio;
 
     public static AudioManager Instance { get; private set; }
@@ -25,11 +26,13 @@ public class AudioManager : MonoBehaviour
         {
             _audioSourceSound.Play();
             _audioSourceSound2.Play();
+            _audioSourceSound3.Play();
         }
         else
         {
             _audioSourceSound.Stop();
             _audioSourceSound2.Stop();
+            _audioSourceSound3.Stop();
         }
     }
 
@@ -68,6 +71,8 @@ public class AudioManager : MonoBehaviour
     public void PlayGrunt() => PlaySound("Grunt", _audioSourceSound2);
 
     public void PlayBat() => PlaySound("Bat", _audioSourceSound);
+
+    public void PlayWolf() => PlaySound("Wolf", _audioSourceSound3);
 
     private void PlayMusic(string name, bool isLoop)
     {
@@ -119,6 +124,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
+        //ContainerSaveerPlayerPrefs.Instance.SaveerData.AllCrystal = 1000;
         if (IsAudioOn() == false)
             _audioSourceMusic.Stop();
 
@@ -126,6 +132,7 @@ public class AudioManager : MonoBehaviour
         {
             _audioSourceSound.Stop();
             _audioSourceSound2.Stop();
+            _audioSourceSound3.Stop();
         }
 
         SetMusicSource(ManagerScenes.Instance.NameActiveScene);

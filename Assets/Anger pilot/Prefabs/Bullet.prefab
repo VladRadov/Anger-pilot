@@ -150,7 +150,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 4
   m_SortAtRoot: 0
 --- !u!50 &-3118382542135298831
 Rigidbody2D:

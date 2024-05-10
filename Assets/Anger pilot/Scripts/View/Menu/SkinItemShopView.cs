@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class SkinItemShopView : ItemShopView
 {
-    [SerializeField] private string _nameSkin;
+    [SerializeField] private SkinItem _skinItem;
 
     public override void InitializeStateItem()
     {
-        var isCurrentSkin = ContainerSaveerPlayerPrefs.Instance.SaveerData.CurrentSkin == _nameSkin;
-        var isPurchased = ContainerSaveerPlayerPrefs.Instance.SaveerData.OpenSkins.Contains(_nameSkin);
+        var isCurrentSkin = ContainerSaveerPlayerPrefs.Instance.SaveerData.CurrentSkin == _skinItem.Name;
+        var isPurchased = ContainerSaveerPlayerPrefs.Instance.SaveerData.OpenSkins.Contains(_skinItem.Name);
 
         if (isCurrentSkin)
             SetSelectedState();
@@ -21,12 +21,12 @@ public class SkinItemShopView : ItemShopView
 
     protected override void Purchase()
     {
-        ContainerSaveerPlayerPrefs.Instance.SaveerData.OpenSkins += _nameSkin + ";";
+        ContainerSaveerPlayerPrefs.Instance.SaveerData.OpenSkins += _skinItem.Name + ";";
     }
 
     protected override void OnSelectedItem()
     {
-        ContainerSaveerPlayerPrefs.Instance.SaveerData.CurrentSkin = _nameSkin;
+        ContainerSaveerPlayerPrefs.Instance.SaveerData.CurrentSkin = _skinItem.Name;
         base.OnSelectedItem();
     }
 }

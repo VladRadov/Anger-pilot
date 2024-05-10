@@ -12,7 +12,10 @@ public class ItemShopView : MonoBehaviour
     [SerializeField] private Button _purchased;
     [SerializeField] private Image _selected;
 
+    [HideInInspector]
     public UnityEvent OnSelectedItemEventHander = new ();
+    [HideInInspector]
+    public UnityEvent OnPurchasedItemEventHander = new ();
 
     public virtual void InitializeStateItem() { }
 
@@ -23,6 +26,7 @@ public class ItemShopView : MonoBehaviour
             Purchase();
             SetPurchasedState();
             AudioManager.Instance.PlayClickButton();
+            OnPurchasedItemEventHander?.Invoke();
         }
         else
             AudioManager.Instance.PlayErrorEntry();

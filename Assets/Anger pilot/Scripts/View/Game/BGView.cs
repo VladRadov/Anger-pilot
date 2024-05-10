@@ -9,6 +9,7 @@ public class BGView : MonoBehaviour
     private Transform _transform;
 
     [SerializeField] private FrameMapView _frameMapView;
+    [SerializeField] private SpriteRenderer _imageBG;
 
     public bool IsVisible => _isVisible;
     public ReactiveCommand<FrameMapView> OnInvisibleFrameMapCommand = new();
@@ -24,6 +25,9 @@ public class BGView : MonoBehaviour
         }
     }
 
+    public void SetSpriteBG(Sprite sprite)
+        => _imageBG.sprite = sprite;
+
     private void Awake()
     {
         _isVisible = true;
@@ -33,6 +37,12 @@ public class BGView : MonoBehaviour
     private void OnBecameInvisible()
     {
         _isVisible = false;
+    }
+
+    private void OnValidate()
+    {
+        if (_imageBG == null)
+            _imageBG = GetComponent<SpriteRenderer>();
     }
 
     private void OnDestroy()
