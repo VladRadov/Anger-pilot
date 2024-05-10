@@ -91,7 +91,8 @@ public class PlayerView : MonoBehaviour
 
     private void OnBecameInvisible()
     {
-        OnGameOverCommand.Execute();
+        if(OnGameOverCommand.IsDisposed == false)
+            OnGameOverCommand.Execute();
     }
 
     private void OnValidate()
