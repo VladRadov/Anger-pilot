@@ -29,7 +29,10 @@ public class TimerRunningView : MonoBehaviour
     }
 
     private void UpdateTimer()
-        => _timerView.text = _currentTime.ToString();
+    {
+        if(_timerView != null)
+            _timerView.text = _currentTime.ToString();
+    }
 
     private void OnDestroy()
     {

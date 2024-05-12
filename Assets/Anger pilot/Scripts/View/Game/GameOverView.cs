@@ -16,7 +16,7 @@ public class GameOverView : MonoBehaviour
         _restart.onClick.AddListener(OnRestart);
         _menu.onClick.AddListener(OnMenu);
         _scoreView.text = "Score: " + ContainerSaveerPlayerPrefs.Instance.SaveerData.Coins.ToString();
-        _crystalView.text = ContainerSaveerPlayerPrefs.Instance.SaveerData.AllCrystal.ToString();
+        _crystalView.text = ContainerSaveerPlayerPrefs.Instance.SaveerData.GameCrystal.ToString();
     }
 
     private void OnRestart()

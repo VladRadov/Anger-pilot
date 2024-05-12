@@ -3,30 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HTPView : MonoBehaviour
+public class EducationView : MonoBehaviour
 {
-    [SerializeField] private Button _close;
+    [SerializeField] private Mask _mask;
     [SerializeField] private Image _helpTextOne;
     [SerializeField] private Image _helpTextTwo;
 
     public void SetActive(bool value)
         => gameObject.SetActive(value);
 
-    private void Start()
+    public void SetActiveMask(bool value)
     {
-        _close.onClick.AddListener(OnButtonClickClose);
+        _mask.gameObject.SetActive(!value);
+        _mask.showMaskGraphic = value;
+        Debug.Log("Mask: " + value);
     }
 
-    private void OnButtonClickClose()
+    public void OnCloseEducation()
     {
         if (_helpTextOne.gameObject.activeSelf)
             _helpTextOne.gameObject.SetActive(false);
         else
             SetActive(false);
-    }
-
-    private void OnEnable()
-    {
-        _helpTextOne.gameObject.SetActive(true);
     }
 }

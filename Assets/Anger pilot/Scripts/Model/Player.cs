@@ -5,25 +5,25 @@ using UniRx;
 
 public class Player
 {
-    private bool _isStandGround;
+    private bool _isStandPlaceJump;
     private bool _isRunning;
 
     public Player()
     {
-        _isStandGround = false;
+        _isStandPlaceJump = false;
         _isRunning = false;
     }
 
     public ReactiveProperty<Vector2> Speed = new();
     public bool IsRunning => _isRunning;
-    public bool IsStandGround => _isStandGround;
+    public bool IsStandGround => _isStandPlaceJump;
 
     public void Jump(Vector2 speed)
     {
-        if (_isStandGround)
+        if (_isStandPlaceJump)
         {
             Speed.Value = speed;
-            _isStandGround = false;
+            _isStandPlaceJump = false;
         }
     }
 
@@ -35,7 +35,7 @@ public class Player
 
     public void OnCollisionGround()
     {
-        _isStandGround = true;
+        _isStandPlaceJump = true;
         Speed.Value = Vector2.zero;
     }
 }

@@ -20,24 +20,32 @@ public class FrameMapController : MonoBehaviour
 
     public List<FrameMapView> FrameMapViews => _frameMapViews;
 
+    public void SetActiveEnemyes(bool value)
+    {
+        foreach (var frame in _frameMapViews)
+            frame.SetActiveWols(value);
+
+        PoolObjects<EnemyView>.SetActiveObjects(value);
+    } 
+
     private Vector3 NextPositionFrameMap => new Vector3(_lastFrameMap.LocalPosition.x + _widthFrame, 0, 0);
 
     private void CreateHealth(FrameMapView frameMapView)
     {
-        var indexRange = Random.Range(0, 4);
-        if (indexRange == 2)
+        var indexRange = Random.Range(0, 1);
+        if (indexRange == 0)
         {
             var health = PoolObjects<HealthView>.GetObject(frameMapView.PrefabHealth);
             var positionX = Random.Range(-_widthFrame, _widthFrame);
-            health.SetLocalPosition(new Vector3(positionX, 0, 0));
+            health.SetLocalPosition(new Vector3(frameMapView.transform.position.x + positionX, 0, 0));
             health.SetSkin(_currentSkin.Icon);
         }
     }
 
     private void CreateEnemy(FrameMapView frameMapView)
     {
-        var indexRange = Random.Range(0, 3);
-        if (indexRange == 2)
+        var indexRange = Random.Range(0, 2);
+        if (indexRange == 1)
         {
             var bat = PoolObjects<EnemyView>.GetObject(_level.PrefabBat);
             var positionX = Random.Range(-_widthFrame, _widthFrame);
@@ -88,12 +96,19 @@ public class FrameMapController : MonoBehaviour
         {
             var frameMap = Instantiate(_level.PrefabsFrameMapView[i]);
 
+            if (i % 2 == 0)
+                frameMap.transform.Rotate(0, 180, 0);
+
             if (_frameMapViews.Count != 0)
                 frameMap.SetLocalPosition(NextPositionFrameMap);
 
             frameMap.SetWidthFrame(_widthFrame);
             _frameMapViews.Add(frameMap);
             _lastFrameMap = frameMap;
+
+            CreateEnemy(frameMap);
+            CreateBullet(frameMap);
+            CreateCrystal(frameMap);
         }
 
         SubscribeOnInvisibleFrameMap();

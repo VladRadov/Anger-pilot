@@ -10,6 +10,7 @@ public class FrameMapView : MonoBehaviour
     [SerializeField] private BGView _bGView;
     [SerializeField] private HealthView _prefabHealth;
     [SerializeField] private SpriteRenderer _ground;
+    [SerializeField] private List<WolfView> _wolfs;
 
     public SystemInput SystemInput =>  _systemInput;
     public Vector3 LocalPosition => transform.localPosition;
@@ -28,4 +29,10 @@ public class FrameMapView : MonoBehaviour
 
     public void SetActive(bool value)
         => transform.gameObject.SetActive(value);
+
+    public void SetActiveWols(bool value)
+    {
+        foreach (var wolf in _wolfs)
+            wolf.gameObject.SetActive(value);
+    }
 }

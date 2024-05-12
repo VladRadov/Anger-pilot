@@ -15,6 +15,7 @@ public class SaveerDataInPlayerPrefs : SaveerData
     private readonly string KEY_OPEN_SKINS = "OpenSkins";
     private readonly string KEY_CURRENT_GROUNDS = "CurrentGrounds";
     private readonly string KEY_OPEN_GROUNDS = "OpenGrounds";
+    private readonly string KEY_EDUCATION = "IsEducation";
 
     public int Coins { get { return Load<int>(KEY_COUNT_COIN, 0); } set { Save<int>(KEY_COUNT_COIN, value); } }
     public int AllCrystal { get { return Load<int>(KEY_COUNT_ALL_CRYSTAL, 0); } set { Save<int>(KEY_COUNT_ALL_CRYSTAL, value); } }
@@ -26,6 +27,7 @@ public class SaveerDataInPlayerPrefs : SaveerData
     public string OpenSkins { get { return Load<string>(KEY_OPEN_SKINS, "1"); } set { Save<string>(KEY_OPEN_SKINS, value); } }
     public string CurrentGround { get { return Load<string>(KEY_CURRENT_GROUNDS, "1"); } set { Save<string>(KEY_CURRENT_GROUNDS, value); } }
     public string OpenGrounds { get { return Load<string>(KEY_OPEN_GROUNDS, "1"); } set { Save<string>(KEY_OPEN_GROUNDS, value); } }
+    public int IsEducation { get { return Load<int>(KEY_EDUCATION, 0); } set { Save<int>(KEY_EDUCATION, value); } }
 
     public override T Load<T>(string nameParameter, T defaultValue)
     {

@@ -7,6 +7,7 @@ public class PlayerController
     private PlayerView _view;
     private Player _player;
     private bool _isMouseHolding;
+    private Vector2 _jumpingForRunning;
 
     public PlayerController(PlayerView view, Player player)
     {
@@ -14,10 +15,15 @@ public class PlayerController
         _player = player;
     }
 
+    public Vector2 JumpingForRunning => _jumpingForRunning;
+
     public void Initialize()
     {
         _player.Speed.Subscribe(value => { _view.UpdateSpeed(value); });
     }
+
+    public void SetForceJumpingForRunning(Vector2 forceJumping)
+        => _jumpingForRunning = forceJumping;
 
     public void SetMouseHolding(bool value)
         => _isMouseHolding = value;
@@ -26,8 +32,8 @@ public class PlayerController
     {
         if (_player.IsRunning)
         {
-            _player.Running(Vector2.right * _view.ForceJumpLeft.Value);
-            _view.UpdateSpeed(Vector2.right * _view.ForceJumpLeft.Value);
+            _player.Running(_jumpingForRunning + Vector2.right * _view.ForceJumpLeft.Value);
+            _view.UpdateSpeed(_jumpingForRunning + Vector2.right * _view.ForceJumpLeft.Value);
         }
 
         if (_isMouseHolding)

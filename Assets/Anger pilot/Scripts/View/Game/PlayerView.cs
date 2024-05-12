@@ -15,12 +15,13 @@ public class PlayerView : MonoBehaviour
 
     public FloatReactiveProperty ForceJumpUp = new();
     public FloatReactiveProperty ForceJumpLeft = new();
-    public ReactiveCommand OnCollisionGroundCommand = new();
+    public ReactiveCommand OnCollisionPlaceJumpCommand = new();
     public ReactiveCommand OnGetDamageCommand = new();
     public ReactiveCommand OnGetBulletCommand = new();
     public ReactiveCommand OnGetCrystalCommand = new();
     public ReactiveCommand OnGameOverCommand = new();
     public ReactiveCommand OnGetSunCommand = new();
+    public ReactiveCommand OnCollisionGroundCommand = new();
     public HealthPlayerView HealthPlayerView => _healthPlayerView;
     public WeaponView WeaponView => _weaponView;
     public Vector3 Speed { get; set; }
@@ -44,18 +45,21 @@ public class PlayerView : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            OnCollisionGroundCommand.Execute();
+
         if (_rigidbody2D.excludeLayers == 0 && collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             OnGameOverCommand.Execute();
             return;
         }
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Jump"))
-            OnCollisionGroundCommand.Execute();
-
         var deadlyPlaceEnemyView = collision.collider.GetComponent<DeadlyPlaceEnemyView>();
         if (deadlyPlaceEnemyView != null)
+        {
             deadlyPlaceEnemyView.SetActiveEnemy(false);
+            OnCollisionPlaceJumpCommand.Execute();
+        }
 
         var enemy = collision.collider.GetComponent<EnemyView>();
         if (enemy != null)
@@ -63,6 +67,12 @@ public class PlayerView : MonoBehaviour
             enemy.SetActive(false);
             OnGetDamageCommand.Execute();
         }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (/*_rigidbody2D.velocity == Vector2.zero &&*/ collision.gameObject.layer == LayerMask.NameToLayer("Jump"))
+            OnCollisionPlaceJumpCommand.Execute();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -111,11 +121,12 @@ public class PlayerView : MonoBehaviour
     {
         ManagerUniRx.Dispose(ForceJumpUp);
         ManagerUniRx.Dispose(ForceJumpLeft);
-        ManagerUniRx.Dispose(OnCollisionGroundCommand);
+        ManagerUniRx.Dispose(OnCollisionPlaceJumpCommand);
         ManagerUniRx.Dispose(OnGetDamageCommand);
         ManagerUniRx.Dispose(OnGetBulletCommand);
         ManagerUniRx.Dispose(OnGetCrystalCommand);
         ManagerUniRx.Dispose(OnGameOverCommand);
         ManagerUniRx.Dispose(OnGetSunCommand);
+        ManagerUniRx.Dispose(OnCollisionGroundCommand);
     }
 }

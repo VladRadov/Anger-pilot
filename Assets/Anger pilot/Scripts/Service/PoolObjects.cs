@@ -32,6 +32,15 @@ public class PoolObjects<T> where T : MonoBehaviour
         return createdObject;
     }
 
+    public static void SetActiveObjects(bool value)
+    {
+        foreach (var currentObject in _objects)
+        {
+            if(currentObject != null)
+                currentObject.gameObject.SetActive(value);
+        }
+    }
+
     public static void Clear()
     {
         foreach (var currentObject in _objects)

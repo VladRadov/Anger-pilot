@@ -17,6 +17,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Sprite _groundDay;
 
     public TimerRunningView TimerRunningView => _timerRunningView;
+    public FrameMapController FrameMapController => _frameMapController;
 
     public void Initialize()
     {
