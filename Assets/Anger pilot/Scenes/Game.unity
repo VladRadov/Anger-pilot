@@ -263,9 +263,9 @@ GameObject:
   - component: {fileID: 104220715}
   - component: {fileID: 104220716}
   - component: {fileID: 104220709}
-  - component: {fileID: 104220711}
   - component: {fileID: 104220713}
   - component: {fileID: 104220714}
+  - component: {fileID: 104220717}
   m_Layer: 5
   m_Name: Player
   m_TagString: Untagged
@@ -324,41 +324,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!70 &104220711
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 104220704}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.61048985, y: 0.2116704}
-  m_Size: {x: 4.96599, y: 11.884784}
-  m_Direction: 0
 --- !u!114 &104220712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -468,6 +433,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefabBullet: {fileID: 6070233251592762949, guid: 96a4ac2fe5e292a4681487e1c0bfdc1f, type: 3}
+--- !u!61 &104220717
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104220704}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.35578728, y: 0.37802505}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 7.076923, y: 12.461538}
+    newSize: {x: 0.92, y: 1.62}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 5.3869286, y: 11.705488}
+  m_EdgeRadius: 0
 --- !u!1 &114591482
 GameObject:
   m_ObjectHideFlags: 0
@@ -2070,8 +2080,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 65.999985, y: -123.46001}
-  m_SizeDelta: {x: 194, y: 77}
+  m_AnchoredPosition: {x: 102.4, y: -121}
+  m_SizeDelta: {x: 290, y: 118}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &824929350
 MonoBehaviour:
@@ -2456,8 +2466,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 1.4989014}
-  m_SizeDelta: {x: -17.9871, y: -14.9893}
+  m_AnchoredPosition: {x: 0.000015258789, y: 0}
+  m_SizeDelta: {x: -31.206, y: -23.251}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1001106847
 MonoBehaviour:
@@ -2481,10 +2491,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 12
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -2539,8 +2549,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 1.4989014}
-  m_SizeDelta: {x: -17.9871, y: -14.9893}
+  m_AnchoredPosition: {x: -0, y: 1.4989014}
+  m_SizeDelta: {x: -29.5535, y: -14.9893}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1025666790
 MonoBehaviour:
@@ -2564,10 +2574,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 12
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -4114,8 +4124,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 65.999985, y: -123.46001}
-  m_SizeDelta: {x: 194, y: 77}
+  m_AnchoredPosition: {x: 102.40001, y: -121}
+  m_SizeDelta: {x: 290, y: 118}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2112551800
 MonoBehaviour:

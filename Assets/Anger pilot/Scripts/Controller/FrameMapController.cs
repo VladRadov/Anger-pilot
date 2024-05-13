@@ -55,7 +55,7 @@ public class FrameMapController : MonoBehaviour
 
     private void CreateBullet(FrameMapView frameMapView)
     {
-        var indexRange = Random.Range(0, 3);
+        var indexRange = Random.Range(0, 4);
         if (indexRange == 2)
         {
             var bullet = PoolObjects<BulletView>.GetObject(_level.PrefabBullet);
@@ -67,7 +67,7 @@ public class FrameMapController : MonoBehaviour
 
     private void CreateCrystal(FrameMapView frameMapView)
     {
-        var indexRange = Random.Range(0, 3);
+        var indexRange = Random.Range(0, 4);
         if (indexRange == 2)
         {
             var bullet = PoolObjects<CrystalView>.GetObject(_level.PrefabCrystal);

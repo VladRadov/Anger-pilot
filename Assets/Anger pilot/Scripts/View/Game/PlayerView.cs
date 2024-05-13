@@ -57,6 +57,7 @@ public class PlayerView : MonoBehaviour
         var deadlyPlaceEnemyView = collision.collider.GetComponent<DeadlyPlaceEnemyView>();
         if (deadlyPlaceEnemyView != null)
         {
+            AudioManager.Instance.PlayLaugh();
             deadlyPlaceEnemyView.SetActiveEnemy(false);
             OnCollisionPlaceJumpCommand.Execute();
         }
