@@ -16,6 +16,7 @@ public class FrameMapView : MonoBehaviour
     public Vector3 LocalPosition => transform.localPosition;
     public BGView BGView => _bGView;
     public HealthView PrefabHealth => _prefabHealth;
+    public List<WolfView> Wolfs => _wolfs;
     public float PositionXEnd => transform.position.x + _widthFrame;
 
     public void SetSpriteGround(Sprite sprite)
@@ -34,5 +35,11 @@ public class FrameMapView : MonoBehaviour
     {
         foreach (var wolf in _wolfs)
             wolf.gameObject.SetActive(value);
+    }
+
+    public void RotationWolfs()
+    {
+        foreach (var wolf in _wolfs)
+            wolf.Rotation();
     }
 }

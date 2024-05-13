@@ -20,7 +20,7 @@ public class ScoreManager : MonoBehaviour
     public void UpdateScore()
         => _scoreCount.text = "Score: " + ContainerSaveerPlayerPrefs.Instance.SaveerData.Coins.ToString();
 
-    public void OnGameOver()
+    public void SaveCrystalsOfGame()
     {
         ContainerSaveerPlayerPrefs.Instance.SaveerData.AllCrystal += ContainerSaveerPlayerPrefs.Instance.SaveerData.GameCrystal;
     }

@@ -9,7 +9,10 @@ public class GameOverView : MonoBehaviour
     [SerializeField] private Text _crystalView;
 
     public void SetActive(bool value)
-        => gameObject.SetActive(value);
+    {
+        if(gameObject != null)
+            gameObject.SetActive(value);
+    }
 
     private void Start()
     {

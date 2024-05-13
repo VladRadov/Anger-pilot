@@ -15,12 +15,12 @@ public class TimerRunningView : MonoBehaviour
     public async void StarTimer()
     {
         gameObject.SetActive(true);
-        _currentTime = 0;
+        _currentTime = _duration;
         UpdateTimer();
-        while (_currentTime <= _duration)
+        while (_currentTime != 0)
         {
             await Task.Delay(1000);
-            _currentTime += 1;
+            _currentTime -= 1;
             UpdateTimer();
         }
 

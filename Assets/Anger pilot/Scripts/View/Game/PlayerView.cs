@@ -12,6 +12,7 @@ public class PlayerView : MonoBehaviour
     [SerializeField] private HealthPlayerView _healthPlayerView;
     [SerializeField] private WeaponView _weaponView;
     [SerializeField] private SpriteRenderer _head;
+    [SerializeField] private AnimationController _animationController;
 
     public FloatReactiveProperty ForceJumpUp = new();
     public FloatReactiveProperty ForceJumpLeft = new();
@@ -24,6 +25,7 @@ public class PlayerView : MonoBehaviour
     public ReactiveCommand OnCollisionGroundCommand = new();
     public HealthPlayerView HealthPlayerView => _healthPlayerView;
     public WeaponView WeaponView => _weaponView;
+    public AnimationController AnimationController => _animationController;
     public Vector3 Speed { get; set; }
 
     public void UpdateSpeed(Vector2 speed)
@@ -45,6 +47,9 @@ public class PlayerView : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (/*_rigidbody2D.velocity == Vector2.zero &&*/ collision.gameObject.layer == LayerMask.NameToLayer("Jump"))
+            OnCollisionPlaceJumpCommand.Execute();
+
         if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
             OnCollisionGroundCommand.Execute();
 
@@ -54,26 +59,21 @@ public class PlayerView : MonoBehaviour
             return;
         }
 
-        var deadlyPlaceEnemyView = collision.collider.GetComponent<DeadlyPlaceEnemyView>();
-        if (deadlyPlaceEnemyView != null)
-        {
-            AudioManager.Instance.PlayLaugh();
-            deadlyPlaceEnemyView.SetActiveEnemy(false);
-            OnCollisionPlaceJumpCommand.Execute();
-        }
-
         var enemy = collision.collider.GetComponent<EnemyView>();
-        if (enemy != null)
+        if (enemy != null && enemy.IsDead == false)
         {
             enemy.SetActive(false);
             OnGetDamageCommand.Execute();
+            return;
         }
-    }
 
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (/*_rigidbody2D.velocity == Vector2.zero &&*/ collision.gameObject.layer == LayerMask.NameToLayer("Jump"))
+        var deadlyPlaceEnemyView = collision.collider.GetComponent<DeadlyPlaceEnemyView>();
+        if (deadlyPlaceEnemyView != null && deadlyPlaceEnemyView.IsDeadEnemy == false)
+        {
+            AudioManager.Instance.PlayLaugh();
+            deadlyPlaceEnemyView.DeadEnemy();
             OnCollisionPlaceJumpCommand.Execute();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -116,6 +116,9 @@ public class PlayerView : MonoBehaviour
 
         if (_weaponView == null)
             _weaponView = GetComponent<WeaponView>();
+
+        if (_animationController == null)
+            _animationController = GetComponent<AnimationController>();
     }
 
     private void OnDisable()

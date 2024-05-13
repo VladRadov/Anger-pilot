@@ -6,6 +6,8 @@ public class DeadlyPlaceEnemyView : MonoBehaviour
 {
     [SerializeField] private EnemyView _enemyView;
 
-    public void SetActiveEnemy(bool value)
-        => _enemyView.SetActive(value);
+    public bool IsDeadEnemy => _enemyView.IsDead;
+
+    public void DeadEnemy()
+        => _enemyView.Dead();
 }

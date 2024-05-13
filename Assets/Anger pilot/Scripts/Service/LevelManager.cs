@@ -6,6 +6,7 @@ using UniRx;
 public class LevelManager : MonoBehaviour
 {
     private FrameMapController _frameMapController;
+    private bool _isGameOver;
 
     [SerializeField] private TimerRunningView _timerRunningView;
     [SerializeField] private Level _level;
@@ -18,13 +19,18 @@ public class LevelManager : MonoBehaviour
 
     public TimerRunningView TimerRunningView => _timerRunningView;
     public FrameMapController FrameMapController => _frameMapController;
+    public bool IsGameOver => _isGameOver;
 
     public void Initialize()
     {
         _frameMapController = new FrameMapController(_level, _widthFrame);
         _frameMapController.Initialize();
         SetBGFrameMaps();
+        _isGameOver = false;
     }
+
+    public void GameOver()
+        => _isGameOver = true;
 
     public void VibrationIphone()
     {
@@ -58,6 +64,15 @@ public class LevelManager : MonoBehaviour
         {
             frameMap.BGView.SetSpriteBG(_bgDay);
             frameMap.SetSpriteGround(_groundDay);
+        }
+    }
+
+    public void SubscribeWolfsOnGameOver(ReactiveCommand gameOverCommand, Transform positionPlayer)
+    {
+        foreach (var frameMap in _frameMapController.FrameMapViews)
+        {
+            foreach (var wolf in frameMap.Wolfs)
+                gameOverCommand.Subscribe(_ => { wolf.OnPlayerCollisionGround(positionPlayer); });
         }
     }
 

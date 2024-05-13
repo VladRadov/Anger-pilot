@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class HealthView : MonoBehaviour
 {
+    private Vector3 _positionOffcet = new Vector3(0, 10, 0);
+
     [SerializeField] private SpriteRenderer _skin;
     [SerializeField] private PolygonCollider2D _polygonCollider;
 
@@ -21,5 +23,12 @@ public class HealthView : MonoBehaviour
 
         if (_skin == null)
             _skin = GetComponent<SpriteRenderer>();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        var player = collision.gameObject.GetComponent<PlayerView>();
+        if (player == null)
+            transform.position += _positionOffcet;
     }
 }

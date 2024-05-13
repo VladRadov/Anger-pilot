@@ -5,6 +5,7 @@ using UniRx;
 public class BulletView : MonoBehaviour
 {
     private bool _isMove;
+    private Vector3 _positionOffcet = new Vector3(0, 10, 0);
 
     [SerializeField] private float _speedMove;
     [SerializeField] protected Sprite _iconActive;
@@ -46,6 +47,10 @@ public class BulletView : MonoBehaviour
             AudioManager.Instance.PlayHitBullet();
             AudioManager.Instance.PlayLaugh();
         }
+
+        var player = collision.gameObject.GetComponent<PlayerView>();
+        if (player != null && _isMove == false)
+            transform.position += _positionOffcet;
     }
 
     private void OnValidate()
