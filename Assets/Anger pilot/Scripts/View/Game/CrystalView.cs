@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CrystalView : MonoBehaviour
 {
-    private Vector3 _positionOffcet = new Vector3(0, 10, 0);
+    private Vector3 _positionOffcet = new Vector3(10, 0, 0);
 
     public void SetLocalPosition(Vector3 position)
         => transform.localPosition = position;

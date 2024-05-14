@@ -107,18 +107,15 @@ public class LevelManager : MonoBehaviour
         Vector3 positionTree = Vector3.zero;
         foreach (var frameMap in _frameMapController.FrameMapViews)
         {
-            if (frameMap.BGView.IsVisible)
+            foreach (var tree in frameMap.Trees)
             {
-                foreach (var tree in frameMap.Trees)
+                if (positionPlayer.x < tree.transform.position.x)
                 {
-                    if (positionPlayer.x < tree.transform.position.x)
+                    var distanceTemp = Vector3.Distance(positionPlayer, tree.transform.position);
+                    if (distance == -1 || distanceTemp < distance)
                     {
-                        var distanceTemp = Vector3.Distance(positionPlayer, tree.transform.position);
-                        if (distance == -1 || distanceTemp < distance)
-                        {
-                            distance = distanceTemp;
-                            positionTree = tree.transform.position;
-                        }
+                        distance = distanceTemp;
+                        positionTree = tree.transform.position;
                     }
                 }
             }

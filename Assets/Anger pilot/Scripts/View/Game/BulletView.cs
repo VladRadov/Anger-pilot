@@ -5,7 +5,7 @@ using UniRx;
 public class BulletView : MonoBehaviour
 {
     private bool _isMove;
-    private Vector3 _positionOffcet = new Vector3(0, 10, 0);
+    private Vector3 _positionOffcet = new Vector3(10, 0, 0);
 
     [SerializeField] private float _speedMove;
     [SerializeField] protected Sprite _iconActive;

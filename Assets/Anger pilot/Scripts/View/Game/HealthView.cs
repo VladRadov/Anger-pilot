@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HealthView : MonoBehaviour
 {
-    private Vector3 _positionOffcet = new Vector3(0, 10, 0);
+    private Vector3 _positionOffcet = new Vector3(10, 0, 0);
 
     [SerializeField] private SpriteRenderer _skin;
     [SerializeField] private PolygonCollider2D _polygonCollider;

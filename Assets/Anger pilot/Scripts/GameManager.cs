@@ -90,7 +90,6 @@ public class GameManager : MonoBehaviour
         {
             _playerView.SetBodyType(RigidbodyType2D.Static);
             _playerController.SetPositionTree(value);
-            Debug.Log(value);
         });
 
         _player.Speed.Subscribe(_ => { _levelManager.CheckingInvisibleFrameMaps(_playerView.transform.position); });
@@ -120,7 +119,8 @@ public class GameManager : MonoBehaviour
             _fire.onClick.RemoveAllListeners();
             _levelManager.VibrationIphone();
             await Task.Delay(3000);
-            _gameOverView.SetActive(true);
+            if(_gameOverView != null)
+                _gameOverView.SetActive(true);
             _scoreManager.SaveCrystalsOfGame();
         }
     }
@@ -135,10 +135,11 @@ public class GameManager : MonoBehaviour
 
     private async void OnGetSun()
     {
+        _playerView.OnGetSun();
+        _playerController.SetForceJumpingForRunning(Vector2.down * _playerView.ForceJumpUp.Value * 2);
         _levelManager.SetBGFramMapsDay();
         AudioManager.Instance.PlayGetSun();
         _levelManager.VibrationIphone();
-        _playerView.OnGetSun();
         _levelManager.FrameMapController.SetActiveEnemyes(false);
         await Task.Delay(200);
         _levelManager.TimerRunningView.StarTimer();
