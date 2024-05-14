@@ -8,6 +8,7 @@ public class PlayerController
     private Player _player;
     private bool _isMouseHolding;
     private Vector2 _jumpingForRunning;
+    private Vector3 _positionTree;
 
     public PlayerController(PlayerView view, Player player)
     {
@@ -25,11 +26,33 @@ public class PlayerController
     public void SetForceJumpingForRunning(Vector2 forceJumping)
         => _jumpingForRunning = forceJumping;
 
+    public void SetPositionTree(Vector2 positionTree)
+        => _positionTree = positionTree;
+
+    public async void Jump(Vector2 forceJumping)
+    {
+        if (_jumpingForRunning != Vector2.zero)
+            return;
+
+        _jumpingForRunning = forceJumping;
+        await Task.Delay(500);
+        if(_jumpingForRunning != Vector2.down * forceJumping)
+            _jumpingForRunning = Vector2.down * forceJumping;
+    }
+
     public void SetMouseHolding(bool value)
         => _isMouseHolding = value;
 
     public void FixedUpdate()
     {
+        if (_player.IsJumpOnTree && Vector3.Distance(_view.transform.position, _positionTree) > 0.3)
+            _view.UpdatePosition(Vector3.MoveTowards(_view.transform.position, _positionTree, 0.7f));
+        else
+        {
+            _view.SetBodyType(RigidbodyType2D.Dynamic);
+            _player.SetJumpOnTreeState(false);
+        }
+
         if (_player.IsRunning)
         {
             _player.Running(_jumpingForRunning + Vector2.right * _view.ForceJumpLeft.Value);
@@ -46,11 +69,12 @@ public class PlayerController
     public async void OnEndTimerRunning()
     {
         _player.SetRunningState(false);
-        _player.OnCollisionGround();
-        _player.Jump(Vector2.up * _view.ForceJumpUp.Value * 3.5f + Vector2.right * _view.ForceJumpLeft.Value);
+        _player.SetJumpOnTreeState(true);
+        _player.OnCollisionPlaceJump();
+        //_player.Jump(Vector2.up * _view.ForceJumpUp.Value * 3.5f + Vector2.right * _view.ForceJumpLeft.Value);
         await Task.Delay(500);
         _view.OnEndTimerRunnning();
-        _player.OnCollisionGround();
+        _player.OnCollisionPlaceJump();
     }
 
     public void Dispose()

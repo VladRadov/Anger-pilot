@@ -718,19 +718,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 224712023}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 830935200}
-        m_TargetAssemblyTypeName: PauseView, Assembly-CSharp
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &224712023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -814,6 +802,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timerRunningView: {fileID: 791212875}
+  _pauseView: {fileID: 830935200}
   _level: {fileID: 11400000, guid: 5847d3dbf1f27b74a8b62aafde85969b, type: 2}
   _widthFrame: 88
   _backgrounds:
@@ -824,6 +813,7 @@ MonoBehaviour:
   _bgDay: {fileID: 21300000, guid: e470cb50bc47cee4d866d2f4bf5afc80, type: 3}
   _groundBase: {fileID: 21300000, guid: 51b0ecdafe8857b4a94e780e17ae6fd1, type: 3}
   _groundDay: {fileID: 21300000, guid: 6a9fc375f30ef4a4381df8fa731371da, type: 3}
+  _pause: {fileID: 224712022}
 --- !u!1 &301374598
 GameObject:
   m_ObjectHideFlags: 0
@@ -2901,9 +2891,9 @@ RectTransform:
   - {fileID: 844745586}
   - {fileID: 224712021}
   - {fileID: 633897950}
+  - {fileID: 791212872}
   - {fileID: 1452743242}
   - {fileID: 830935197}
-  - {fileID: 791212872}
   - {fileID: 930000852}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

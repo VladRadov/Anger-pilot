@@ -28,6 +28,9 @@ public class PlayerView : MonoBehaviour
     public AnimationController AnimationController => _animationController;
     public Vector3 Speed { get; set; }
 
+    public void UpdatePosition(Vector3 target)
+        => transform.position = target;
+
     public void UpdateSpeed(Vector2 speed)
         => _rigidbody2D.velocity = speed;
 
@@ -40,6 +43,9 @@ public class PlayerView : MonoBehaviour
     public void SetSpriteHead(Sprite spriteHead)
         => _head.sprite = spriteHead;
 
+    public void SetBodyType(RigidbodyType2D type)
+        => _rigidbody2D.bodyType = type;
+
     private void Start()
     {
         _maskRunning = LayerMask.GetMask("Jump", "Tree");
@@ -47,7 +53,7 @@ public class PlayerView : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (/*_rigidbody2D.velocity == Vector2.zero &&*/ collision.gameObject.layer == LayerMask.NameToLayer("Jump"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Jump"))
             OnCollisionPlaceJumpCommand.Execute();
 
         if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))

@@ -6,6 +6,7 @@ using UniRx;
 public class TimerRunningView : MonoBehaviour
 {
     private int _currentTime;
+    private bool _isStopped;
 
     [SerializeField] private int _duration;
     [SerializeField] private Text _timerView;
@@ -14,19 +15,29 @@ public class TimerRunningView : MonoBehaviour
 
     public async void StarTimer()
     {
+        _isStopped = false;
         gameObject.SetActive(true);
         _currentTime = _duration;
         UpdateTimer();
         while (_currentTime != 0)
         {
             await Task.Delay(1000);
-            _currentTime -= 1;
-            UpdateTimer();
+            if (_isStopped == false)
+            {
+                _currentTime -= 1;
+                UpdateTimer();
+            }
         }
 
-        OnEndTimerCommand.Execute();
+        OnEndTimerCommand?.Execute();
         gameObject.SetActive(false);
     }
+
+    public void StopTimer()
+        => _isStopped = true;
+
+    public void ContinueTimer()
+        => _isStopped = false;
 
     private void UpdateTimer()
     {

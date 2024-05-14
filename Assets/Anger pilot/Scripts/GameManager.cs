@@ -43,20 +43,20 @@ public class GameManager : MonoBehaviour
             if (_levelManager.IsGameOver)
                 return;
 
-            if (_player.IsStandGround)
+            if (_player.IsStandPlaceJump)
             {
                 _playerView.AnimationController.PlayJump();
                 _playerController.SetMouseHolding(true);
             }
 
             if (_player.IsRunning)
-                _playerController.SetForceJumpingForRunning(Vector2.up * _playerView.ForceJumpUp.Value);
+                _playerController.Jump(Vector2.up * _playerView.ForceJumpUp.Value);
         });
         _levelManager.SubscribeOnMouseUp(_ =>
         {
             _playerController.SetMouseHolding(false);
-            if (_player.IsRunning)
-                _playerController.SetForceJumpingForRunning(Vector2.down * _playerView.ForceJumpUp.Value);
+            //if (_player.IsRunning)
+                //_playerController.SetForceJumpingForRunning(Vector2.down * _playerView.ForceJumpUp.Value);
         });
         _levelManager.SubscribeWolfsOnGameOver(_playerView.OnGameOverCommand, _playerView.transform);
 
@@ -85,9 +85,30 @@ public class GameManager : MonoBehaviour
         _healthManager.GameOverCommand.Subscribe(_ => { _levelManager.VibrationIphone(); });
 
         _levelManager.TimerRunningView.OnEndTimerCommand.Subscribe(_ => { OnTimerRunnigEnd(); });
+        _levelManager.PauseView.OnActiverPauseCommand.Subscribe(value => { OnSetActivePause(value); });
+        _levelManager.OnJumpInTreeCommand.Subscribe(value =>
+        {
+            _playerView.SetBodyType(RigidbodyType2D.Static);
+            _playerController.SetPositionTree(value);
+            Debug.Log(value);
+        });
 
         _player.Speed.Subscribe(_ => { _levelManager.CheckingInvisibleFrameMaps(_playerView.transform.position); });
         AddObjectsDisposable();
+    }
+
+    private void OnSetActivePause(bool value)
+    {
+        if (value)
+        {
+            _levelManager.TimerRunningView.StopTimer();
+            _playerView.SetBodyType(RigidbodyType2D.Static);
+        }
+        else
+        {
+            _levelManager.TimerRunningView.ContinueTimer();
+            _playerView.SetBodyType(RigidbodyType2D.Dynamic);
+        }
     }
 
     private async void OnGameOver()
@@ -107,6 +128,7 @@ public class GameManager : MonoBehaviour
     private void OnTimerRunnigEnd()
     {
         _levelManager.SetBGFrameMaps();
+        _levelManager.SearchNearTree(_playerView.transform.position);
         _playerController.OnEndTimerRunning();
         _levelManager.FrameMapController.SetActiveEnemyes(true);
     }
@@ -125,9 +147,9 @@ public class GameManager : MonoBehaviour
 
     private void OnCollisionPlaceJump()
     {
-        if (_player.IsStandGround == false)
+        if (_player.IsStandPlaceJump == false)
         {
-            _player.OnCollisionGround();
+            _player.OnCollisionPlaceJump();
             _scoreManager.AddScore();
             _scoreManager.UpdateScore();
             _levelManager.VibrationIphone();
@@ -152,6 +174,8 @@ public class GameManager : MonoBehaviour
         ManagerUniRx.AddObjectDisposable(_levelManager.TimerRunningView.OnEndTimerCommand);
         ManagerUniRx.AddObjectDisposable(_playerView.WeaponView.OnFireCommand);
         ManagerUniRx.AddObjectDisposable(_playerView.OnCollisionGroundCommand);
+        ManagerUniRx.AddObjectDisposable(_levelManager.PauseView.OnActiverPauseCommand);
+        ManagerUniRx.AddObjectDisposable(_levelManager.OnJumpInTreeCommand);
         _levelManager.AddObjectsDisposable();
     }
 }

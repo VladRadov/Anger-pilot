@@ -4,16 +4,23 @@ using UnityEngine;
 
 public class WolfView : MonoBehaviour
 {
-    private bool _isVisible;
     private Vector2 _positionPlayer;
     private Transform _transform;
+    private bool _isStopped;
+    private bool _isRunning;
+    private bool _isVisible;
 
     [SerializeField] private Animator _animator;
 
     public void OnPlayerCollisionGround(Transform positionPlayer)
     {
+        if (_isRunning || _isStopped)
+            return;
+
         if (_isVisible)
         {
+            _isRunning = true;
+
             if (positionPlayer.position.x > _transform.position.x)
                 Rotation();
 
@@ -31,7 +38,10 @@ public class WolfView : MonoBehaviour
     }
 
     private void PlayAdimatioRunning()
-        => _animator.speed = 1;
+    {
+        _animator.speed = 1;
+        _animator.Play("RunningWolf", -1, 0);
+    }
 
     private void StopAnimatioRunning()
     {
@@ -43,14 +53,24 @@ public class WolfView : MonoBehaviour
     {
         _positionPlayer = Vector2.zero;
         _transform = transform;
+        _isStopped = false;
+        _isRunning = false;
     }
 
     private void FixedUpdate()
     {
-        if (_positionPlayer != Vector2.zero && Vector2.Distance(_transform.position, _positionPlayer) > 0.3)
+        if (_positionPlayer != Vector2.zero && _isStopped == false)
             _transform.position = Vector2.MoveTowards(_transform.position, _positionPlayer, 0.3f);
-        else
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        var player = collision.gameObject.GetComponent<PlayerView>();
+        if (player != null && _isStopped == false)
+        {
+            _isStopped = true;
             StopAnimatioRunning();
+        }
     }
 
     private void OnBecameVisible()
