@@ -16,6 +16,11 @@ public class AnimationController : MonoBehaviour
         _animator.Play("Fire", -1, 0);
     }
 
+    public void PlayRun()
+    {
+        _animator.Play("PlayerRun", -1, 0);
+    }
+
     private void OnValidate()
     {
         if (_animator == null)

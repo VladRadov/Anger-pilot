@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,29 +34,7 @@ public class GameManager : MonoBehaviour
         _playerView.Speed = Vector2.up * _playerView.ForceJumpUp.Value + Vector2.right * _playerView.ForceJumpLeft.Value;
         _playerView.SetSpriteHead(_healthManager.CurrentSkin.Icon);
 
-        _fire.onClick.AddListener(() => { if (_bulletManager.TryFire()) _playerView.WeaponView.Fire(); });
-
-        _levelManager.SubscribeOnMouseDown(_ =>
-        {
-            if (_levelManager.IsGameOver)
-                return;
-
-            if (_player.IsStandPlaceJump)
-            {
-                _playerView.AnimationController.PlayJump();
-                _playerController.SetMouseHolding(true);
-            }
-
-            if (_player.IsRunning)
-                _playerController.Jump(Vector2.up * _playerView.ForceJumpUp.Value);
-        });
-        _levelManager.SubscribeOnMouseUp(_ =>
-        {
-            _playerController.SetMouseHolding(false);
-            //if (_player.IsRunning)
-                //_playerController.SetForceJumpingForRunning(Vector2.down * _playerView.ForceJumpUp.Value);
-        });
-        _levelManager.SubscribeWolfsOnGameOver(_playerView.OnGameOverCommand, _playerView.transform);
+        _fire.onClick.AddListener(() => { if (_bulletManager.TryFire()) _playerView.WeaponView.Fire(); });    
 
         _playerView.OnGetCrystalCommand.Subscribe(_ => { _scoreManager.AddCrystal(); _scoreManager.UpdateScrystal(); });
         _playerView.OnGetCrystalCommand.Subscribe(_ => { _levelManager.VibrationIphone(); });
@@ -72,10 +48,8 @@ public class GameManager : MonoBehaviour
         _playerView.OnGetDamageCommand.Subscribe(_ => { _healthManager.Damage(); });
         _playerView.OnGetDamageCommand.Subscribe(_ => { AudioManager.Instance.PlayGrunt(); });
         _playerView.OnGameOverCommand.Subscribe(_ => { OnGameOver(); });
-        _playerView.OnCollisionGroundCommand.Subscribe(_ => { if(_playerController.JumpingForRunning != Vector2.zero) _playerController.SetForceJumpingForRunning(Vector2.zero); });
-
+        _playerView.OnCollisionGroundCommand.Subscribe(_ => { OnCollisionGround(); });
         _playerView.OnGetSunCommand.Subscribe(_ => { OnGetSun(); });
-
         _playerView.WeaponView.OnFireCommand.Subscribe(_ => { AudioManager.Instance.PlayFire(); });
         _playerView.WeaponView.OnFireCommand.Subscribe(_ => { _playerView.AnimationController.PlayFire(); });
 
@@ -86,14 +60,44 @@ public class GameManager : MonoBehaviour
 
         _levelManager.TimerRunningView.OnEndTimerCommand.Subscribe(_ => { OnTimerRunnigEnd(); });
         _levelManager.PauseView.OnActiverPauseCommand.Subscribe(value => { OnSetActivePause(value); });
-        _levelManager.OnJumpInTreeCommand.Subscribe(value =>
-        {
-            _playerView.SetBodyType(RigidbodyType2D.Static);
-            _playerController.SetPositionTree(value);
-        });
+        _levelManager.OnJumpInTreeCommand.Subscribe(value => { OnJumpInTree(value); });
+        _levelManager.SubscribeOnMouseUp(_ => { _playerController.SetMouseHolding(false); });
+        _levelManager.SubscribeWolfsOnGameOver(_playerView.OnGameOverCommand, _playerView.transform);
+        _levelManager.SubscribeOnMouseDown(_ => { OnMouseDownInpurSystem(); });
 
         _player.Speed.Subscribe(_ => { _levelManager.CheckingInvisibleFrameMaps(_playerView.transform.position); });
         AddObjectsDisposable();
+    }
+
+    private void OnMouseDownInpurSystem()
+    {
+        if (_levelManager.IsGameOver)
+            return;
+
+        if (_player.IsStandPlaceJump)
+        {
+            _playerView.AnimationController.PlayJump();
+            _playerController.SetMouseHolding(true);
+        }
+
+        if (_player.IsRunning)
+            _playerController.Jump(Vector2.up * _playerView.ForceJumpUp.Value);
+    }
+
+    private void OnJumpInTree(Vector3 value)
+    {
+        _playerView.SetBodyType(RigidbodyType2D.Static);
+        _playerController.SetPositionTree(value);
+    }
+
+    private void OnCollisionGround()
+    {
+        if (_playerController.JumpingForRunning != Vector2.zero)
+        {
+            _playerController.SetForceJumpingForRunning(Vector2.zero);
+            if (_player.IsRunning)
+                _playerView.AnimationController.PlayRun();
+        }
     }
 
     private void OnSetActivePause(bool value)
@@ -135,6 +139,9 @@ public class GameManager : MonoBehaviour
 
     private async void OnGetSun()
     {
+        if (_player.IsRunning)
+            return;
+
         _playerView.OnGetSun();
         _playerController.SetForceJumpingForRunning(Vector2.down * _playerView.ForceJumpUp.Value * 2);
         _levelManager.SetBGFramMapsDay();
@@ -144,6 +151,7 @@ public class GameManager : MonoBehaviour
         await Task.Delay(200);
         _levelManager.TimerRunningView.StarTimer();
         _player.SetRunningState(true);
+        _playerView.AnimationController.PlayRun();
     }
 
     private void OnCollisionPlaceJump()

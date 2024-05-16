@@ -34,6 +34,7 @@ public class PlayerController
         if (_jumpingForRunning != Vector2.zero)
             return;
 
+        _view.AnimationController.PlayJump();
         _jumpingForRunning = forceJumping;
         await Task.Delay(500);
         if(_jumpingForRunning != Vector2.down * forceJumping)
@@ -68,10 +69,10 @@ public class PlayerController
 
     public async void OnEndTimerRunning()
     {
+        _view.AnimationController.PlayJump();
         _player.SetRunningState(false);
         _player.SetJumpOnTreeState(true);
         _player.OnCollisionPlaceJump();
-        //_player.Jump(Vector2.up * _view.ForceJumpUp.Value * 3.5f + Vector2.right * _view.ForceJumpLeft.Value);
         await Task.Delay(500);
         _view.OnEndTimerRunnning();
         _player.OnCollisionPlaceJump();
