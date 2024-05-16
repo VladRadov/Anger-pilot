@@ -106,12 +106,15 @@ public class GameManager : MonoBehaviour
         {
             _levelManager.TimerRunningView.StopTimer();
             _playerView.SetBodyType(RigidbodyType2D.Static);
+            _playerView.AnimationController.Pause();
         }
         else
         {
             _levelManager.TimerRunningView.ContinueTimer();
             _playerView.SetBodyType(RigidbodyType2D.Dynamic);
+            _playerView.AnimationController.Continue();
         }
+        _levelManager.SetPause(value);
     }
 
     private async void OnGameOver()
@@ -167,7 +170,8 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _playerController.FixedUpdate();
+        if (_levelManager.IsPause == false)
+            _playerController.FixedUpdate();
     }
 
     private void AddObjectsDisposable()

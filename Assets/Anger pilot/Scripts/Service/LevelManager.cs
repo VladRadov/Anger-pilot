@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
 {
     private FrameMapController _frameMapController;
     private bool _isGameOver;
+    private bool _isPause;
 
     [SerializeField] private TimerRunningView _timerRunningView;
     [SerializeField] private PauseView _pauseView;
@@ -24,6 +25,7 @@ public class LevelManager : MonoBehaviour
     public PauseView PauseView => _pauseView;
     public FrameMapController FrameMapController => _frameMapController;
     public bool IsGameOver => _isGameOver;
+    public bool IsPause => _isPause;
     public ReactiveCommand<Vector3> OnJumpInTreeCommand = new();
 
     public void Initialize()
@@ -32,8 +34,12 @@ public class LevelManager : MonoBehaviour
         _frameMapController.Initialize();
         SetBGFrameMaps();
         _isGameOver = false;
+        _isPause = false;
         _pause.onClick.AddListener(() => { _pauseView.SetActive(true); });
     }
+
+    public void SetPause(bool value)
+        => _isPause = value;
 
     public void GameOver()
         => _isGameOver = true;

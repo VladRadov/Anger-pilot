@@ -21,6 +21,12 @@ public class AnimationController : MonoBehaviour
         _animator.Play("PlayerRun", -1, 0);
     }
 
+    public void Pause()
+        => _animator.speed = 0;
+
+    public void Continue()
+        => _animator.speed = 1;
+
     private void OnValidate()
     {
         if (_animator == null)
