@@ -115,6 +115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 2809649342613300955}
+  _offsetPositionPatrul: {x: -20, y: 0, z: 0}
 --- !u!95 &2809649342613300955
 Animator:
   serializedVersion: 5

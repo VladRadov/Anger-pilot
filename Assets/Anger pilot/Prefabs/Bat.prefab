@@ -408,6 +408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 1
+  _minDistanceAttack: 40
 --- !u!95 &7987786349762774299
 Animator:
   serializedVersion: 5

@@ -5,12 +5,14 @@ using UnityEngine;
 public class WolfView : MonoBehaviour
 {
     private Vector2 _positionPlayer;
+    private Vector3 _positionPatrul;
     private Transform _transform;
     private bool _isStopped;
     private bool _isRunning;
     private bool _isVisible;
 
     [SerializeField] private Animator _animator;
+    [SerializeField] private Vector3 _offsetPositionPatrul;
 
     public void OnPlayerCollisionGround(Transform positionPlayer)
     {
@@ -21,7 +23,7 @@ public class WolfView : MonoBehaviour
         {
             _isRunning = true;
 
-            if (positionPlayer.position.x > _transform.position.x)
+            if (_offsetPositionPatrul.x < 0 && positionPlayer.position.x > _transform.position.x || _offsetPositionPatrul.x > 0 && positionPlayer.position.x < _transform.position.x)
                 Rotation();
 
             _positionPlayer = new Vector2(positionPlayer.position.x, _transform.position.y);
@@ -61,6 +63,17 @@ public class WolfView : MonoBehaviour
     {
         if (_positionPlayer != Vector2.zero && _isStopped == false)
             _transform.position = Vector2.MoveTowards(_transform.position, _positionPlayer, 0.3f);
+        else if (_isStopped == false && _positionPlayer == Vector2.zero && _isVisible)
+        {
+            if (Mathf.Abs(Vector3.Distance(_transform.position, _positionPatrul)) > 0.2)
+                _transform.position = Vector2.MoveTowards(_transform.position, _positionPatrul, 0.3f);
+            else
+            {
+                _offsetPositionPatrul *= -1;
+                _positionPatrul = _transform.position + _offsetPositionPatrul;
+                Rotation();
+            }
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -77,6 +90,8 @@ public class WolfView : MonoBehaviour
     {
         _isVisible = true;
         AudioManager.Instance.PlayWolf();
+        PlayAdimatioRunning();
+        _positionPatrul = _transform.position + _offsetPositionPatrul;
     }
 
     private void OnBecameInvisible()

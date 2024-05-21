@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         AudioManager.Instance.PlayMusicGame();
-        _levelManager.Initialize();
+        _levelManager.Initialize(_playerView.transform);
         _healthManager.Initialize();
         _bulletManager.Initialize();
 
@@ -50,8 +50,7 @@ public class GameManager : MonoBehaviour
         _playerView.OnGameOverCommand.Subscribe(_ => { OnGameOver(); });
         _playerView.OnCollisionGroundCommand.Subscribe(_ => { OnCollisionGround(); });
         _playerView.OnGetSunCommand.Subscribe(_ => { OnGetSun(); });
-        _playerView.WeaponView.OnFireCommand.Subscribe(_ => { AudioManager.Instance.PlayFire(); });
-        _playerView.WeaponView.OnFireCommand.Subscribe(_ => { _playerView.AnimationController.PlayFire(); });
+        _playerView.WeaponView.OnFireCommand.Subscribe(_ => { OnFire(); });
 
         _healthManager.GameOverCommand.Subscribe(_ => { _gameOverView.SetActive(true); });
         _healthManager.GameOverCommand.Subscribe(_ => { _scoreManager.SaveCrystalsOfGame(); });
@@ -61,22 +60,43 @@ public class GameManager : MonoBehaviour
         _levelManager.TimerRunningView.OnEndTimerCommand.Subscribe(_ => { OnTimerRunnigEnd(); });
         _levelManager.PauseView.OnActiverPauseCommand.Subscribe(value => { OnSetActivePause(value); });
         _levelManager.OnJumpInTreeCommand.Subscribe(value => { OnJumpInTree(value); });
-        _levelManager.SubscribeOnMouseUp(_ => { _playerController.SetMouseHolding(false); });
+        _levelManager.SubscribeOnMouseUp(_ => { OnMouseUpInputSystem(); });
         _levelManager.SubscribeWolfsOnGameOver(_playerView.OnGameOverCommand, _playerView.transform);
-        _levelManager.SubscribeOnMouseDown(_ => { OnMouseDownInpurSystem(); });
+        _levelManager.SubscribeOnMouseDown(_ => { OnMouseDownInputSystem(); });
 
         _player.Speed.Subscribe(_ => { _levelManager.CheckingInvisibleFrameMaps(_playerView.transform.position); });
         AddObjectsDisposable();
     }
 
-    private void OnMouseDownInpurSystem()
+    private async void OnFire()
+    {
+        AudioManager.Instance.PlayFire();
+        _playerView.AnimationController.PlayFire();
+
+        await Task.Delay(1000);
+
+        if (_player.IsRunning)
+            _playerView.AnimationController.PlayRun();
+    }
+
+    private void OnMouseUpInputSystem()
+    {
+        _playerController.SetMouseHolding(false);
+
+        if (_levelManager.IsGameOver)
+            return;
+        if (_player.IsRunning == false)
+            _playerView.AnimationController.PlayRunOne();
+    }
+
+    private void OnMouseDownInputSystem()
     {
         if (_levelManager.IsGameOver)
             return;
 
         if (_player.IsStandPlaceJump)
         {
-            _playerView.AnimationController.PlayJump();
+            _playerView.AnimationController.PlayRun();
             _playerController.SetMouseHolding(true);
         }
 

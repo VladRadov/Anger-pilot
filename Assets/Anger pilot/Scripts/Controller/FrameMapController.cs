@@ -10,12 +10,14 @@ public class FrameMapController : MonoBehaviour
     private int _widthFrame;
     private FrameMapView _lastFrameMap;
     private SkinItem _currentSkin;
+    private Transform _player;
 
-    public FrameMapController(Level level, int widthFrame)
+    public FrameMapController(Level level, int widthFrame, Transform player)
     {
         _level = level;
         _frameMapViews = new();
         _widthFrame = widthFrame;
+        _player = player;
     }
 
     public List<FrameMapView> FrameMapViews => _frameMapViews;
@@ -25,7 +27,7 @@ public class FrameMapController : MonoBehaviour
         foreach (var frame in _frameMapViews)
             frame.SetActiveWols(value);
 
-        PoolObjects<EnemyView>.SetActiveObjects(value);
+        PoolObjects<BatView>.SetActiveObjects(value);
     } 
 
     private Vector3 NextPositionFrameMap => new Vector3(_lastFrameMap.LocalPosition.x + _widthFrame, 0, 0);
@@ -47,7 +49,8 @@ public class FrameMapController : MonoBehaviour
         var indexRange = Random.Range(0, 2);
         if (indexRange == 1)
         {
-            var bat = PoolObjects<EnemyView>.GetObject(_level.PrefabBat);
+            var bat = PoolObjects<BatView>.GetObject(_level.PrefabBat);
+            bat.SetTransformPlayer(_player);
             var positionX = Random.Range(-_widthFrame, _widthFrame);
             bat.SetLocalPosition(new Vector3(frameMapView.transform.position.x + positionX, 0, 0));
         }

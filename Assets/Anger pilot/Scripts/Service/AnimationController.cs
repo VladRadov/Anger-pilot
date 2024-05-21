@@ -11,6 +11,11 @@ public class AnimationController : MonoBehaviour
         _animator.Play("PlayerJump", -1, 0);
     }
 
+    public void PlayRunOne()
+    {
+        _animator.Play("PlayerRunOne", -1, 0);
+    }
+
     public void PlayFire()
     {
         _animator.Play("Fire", -1, 0);

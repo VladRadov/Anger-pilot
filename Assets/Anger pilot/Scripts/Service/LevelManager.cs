@@ -28,9 +28,9 @@ public class LevelManager : MonoBehaviour
     public bool IsPause => _isPause;
     public ReactiveCommand<Vector3> OnJumpInTreeCommand = new();
 
-    public void Initialize()
+    public void Initialize(Transform player)
     {
-        _frameMapController = new FrameMapController(_level, _widthFrame);
+        _frameMapController = new FrameMapController(_level, _widthFrame, player);
         _frameMapController.Initialize();
         SetBGFrameMaps();
         _isGameOver = false;
