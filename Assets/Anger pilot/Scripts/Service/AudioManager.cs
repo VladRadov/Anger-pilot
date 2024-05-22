@@ -72,6 +72,8 @@ public class AudioManager : MonoBehaviour
 
     public void PlayBat() => PlaySound("Bat", _audioSourceSound);
 
+    public void PlayCrashPlane() => PlaySound("CrashPlane", _audioSourceSound2);
+
     public void PlayWolf() => PlaySound("Wolf", _audioSourceSound3);
 
     private void PlayMusic(string name, bool isLoop)

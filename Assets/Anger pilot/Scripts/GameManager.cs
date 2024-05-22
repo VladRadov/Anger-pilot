@@ -63,9 +63,17 @@ public class GameManager : MonoBehaviour
         _levelManager.SubscribeOnMouseUp(_ => { OnMouseUpInputSystem(); });
         _levelManager.SubscribeWolfsOnGameOver(_playerView.OnGameOverCommand, _playerView.transform);
         _levelManager.SubscribeOnMouseDown(_ => { OnMouseDownInputSystem(); });
+        _levelManager.PlaneView.OnCrashPlaneCommand.Subscribe(_ => { OnCrashPlane(); });
 
         _player.Speed.Subscribe(_ => { _levelManager.CheckingInvisibleFrameMaps(_playerView.transform.position); });
         AddObjectsDisposable();
+    }
+
+    private void OnCrashPlane()
+    {
+        _levelManager.SearchNearTree(_playerView.transform.position);
+        _playerView.SetActive(true);
+        _playerController.OnEndTimerRunning();
     }
 
     private async void OnFire()
@@ -209,6 +217,7 @@ public class GameManager : MonoBehaviour
         ManagerUniRx.AddObjectDisposable(_playerView.OnCollisionGroundCommand);
         ManagerUniRx.AddObjectDisposable(_levelManager.PauseView.OnActiverPauseCommand);
         ManagerUniRx.AddObjectDisposable(_levelManager.OnJumpInTreeCommand);
+        ManagerUniRx.AddObjectDisposable(_levelManager.PlaneView.OnCrashPlaneCommand);
         _levelManager.AddObjectsDisposable();
     }
 }

@@ -20,12 +20,14 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Sprite _groundBase;
     [SerializeField] private Sprite _groundDay;
     [SerializeField] private Button _pause;
+    [SerializeField] private PlaneView _planeView;
 
     public TimerRunningView TimerRunningView => _timerRunningView;
     public PauseView PauseView => _pauseView;
     public FrameMapController FrameMapController => _frameMapController;
     public bool IsGameOver => _isGameOver;
     public bool IsPause => _isPause;
+    public PlaneView PlaneView => _planeView;
     public ReactiveCommand<Vector3> OnJumpInTreeCommand = new();
 
     public void Initialize(Transform player)

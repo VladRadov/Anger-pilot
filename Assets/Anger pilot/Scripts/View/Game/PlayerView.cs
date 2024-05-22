@@ -28,6 +28,9 @@ public class PlayerView : MonoBehaviour
     public AnimationController AnimationController => _animationController;
     public Vector3 Speed { get; set; }
 
+    public void SetActive(bool value)
+        => gameObject.SetActive(value);
+
     public void UpdatePosition(Vector3 target)
         => transform.position = target;
 

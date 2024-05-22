@@ -19,7 +19,7 @@ public class PlayGameView : MonoBehaviour
     private void PlayAnimationCrash()
     {
         AudioManager.Instance.PlayClickButton();
-        _animator.SetTrigger("IsCrash");
+        OnStartGame();
     }
 
     private void OnValidate()
